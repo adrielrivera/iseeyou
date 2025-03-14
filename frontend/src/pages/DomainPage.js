@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Typography, Alert, CircularProgress, Tabs, Tab, LinearProgress } from '@mui/material';
+import { Box, Typography, Alert, CircularProgress, Tabs, Tab, LinearProgress, Paper, Fade } from '@mui/material';
 import DomainIcon from '@mui/icons-material/Domain';
 import InfoIcon from '@mui/icons-material/Info';
 import DnsIcon from '@mui/icons-material/Dns';
 import HttpIcon from '@mui/icons-material/Http';
+import SearchIcon from '@mui/icons-material/Search';
 
 import SearchForm from '../components/SearchForm';
 import ResultCard from '../components/ResultCard';
@@ -70,7 +71,7 @@ const DomainPage = () => {
             whois: { 
               domain: domainValue,
               error: err.message,
-              message: "Error fetching WHOIS data. This might be due to rate limiting or network issues."
+              message: "Oops! We couldn't fetch the WHOIS data. Might be rate limiting or network gremlins."
             } 
           }));
         });
@@ -92,7 +93,7 @@ const DomainPage = () => {
             dns: { 
               domain: domainValue,
               error: err.message,
-              message: "Error fetching DNS records. This might be due to network issues."
+              message: "Hmm, couldn't grab those DNS records. The internet's being a bit dodgy."
             } 
           }));
         });
@@ -111,7 +112,7 @@ const DomainPage = () => {
             headers: { 
               domain: domainValue,
               error: err.message,
-              message: "Error fetching HTTP headers. The domain might be unreachable."
+              message: "Couldn't fetch the HTTP headers. The domain might be playing hard to get."
             } 
           }));
         });
@@ -123,7 +124,7 @@ const DomainPage = () => {
       console.error('Error fetching domain information:', err);
       setError(
         err.response?.data?.error ||
-          'An error occurred while fetching domain information. Please try again.'
+          'Something went wrong while digging up info on this domain. Give it another go?'
       );
     } finally {
       setLoading(false);
@@ -139,48 +140,78 @@ const DomainPage = () => {
 
   return (
     <Box>
-      <Typography variant="h4" component="h1" gutterBottom>
-        Domain Lookup
-      </Typography>
-      <Typography variant="body1" paragraph>
-        Gather intelligence on domains including WHOIS information, DNS records, and HTTP headers.
-      </Typography>
+      <Paper 
+        elevation={2} 
+        sx={{ 
+          p: 3, 
+          mb: 4, 
+          borderRadius: 2,
+          background: 'linear-gradient(135deg, rgba(43, 122, 120, 0.1) 0%, rgba(23, 37, 42, 0.1) 100%)',
+          border: '1px solid rgba(58, 175, 169, 0.2)'
+        }}
+      >
+        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+          <DomainIcon color="primary" sx={{ mr: 1, fontSize: 30 }} />
+          <Typography variant="h4" component="h1" sx={{ fontWeight: 600 }}>
+            Domain Detective
+          </Typography>
+        </Box>
+        <Typography variant="body1" paragraph sx={{ mb: 3 }}>
+          Fancy a snoop around a domain? We'll dig up all the juicy details - from who owns it to how it's set up. Perfect for security checks or just satisfying your curiosity.
+        </Typography>
 
-      <SearchForm
-        title="Domain Lookup"
-        inputLabel="Domain"
-        inputPlaceholder="Enter a domain (e.g., example.com)"
-        onSearch={handleSearch}
-        isLoading={loading}
-        searchOptions={dnsRecordTypes}
-        icon={<DomainIcon color="primary" />}
-      />
+        <SearchForm
+          title="Domain Lookup"
+          inputLabel="Domain"
+          inputPlaceholder="Pop in a domain (e.g., google.com)"
+          onSearch={handleSearch}
+          isLoading={loading}
+          searchOptions={dnsRecordTypes}
+          icon={<SearchIcon color="primary" />}
+        />
+      </Paper>
 
       {loading && (
-        <Box sx={{ width: '100%', mt: 2 }}>
-          <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 1 }}>
-            Fetching domain information... This may take up to 15 seconds.
-          </Typography>
-          <LinearProgress />
-        </Box>
+        <Fade in={loading} style={{ transitionDelay: loading ? '300ms' : '0ms' }}>
+          <Box sx={{ width: '100%', mt: 2, mb: 4 }}>
+            <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 1 }}>
+              Digging up the dirt... Might take up to 15 seconds for all the juicy details.
+            </Typography>
+            <LinearProgress sx={{ height: 6, borderRadius: 3 }} />
+          </Box>
+        </Fade>
       )}
 
       {error && (
-        <Alert severity="error" sx={{ mb: 4, mt: 2 }}>
+        <Alert severity="error" sx={{ mb: 4, mt: 2, borderRadius: 2 }}>
           {error}
         </Alert>
       )}
 
       {domain && hasAnyResults && (
         <Box sx={{ mt: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Results for {domain}
+          <Typography variant="h5" gutterBottom sx={{ fontWeight: 600, mb: 3 }}>
+            Results for <span style={{ color: '#3AAFA9' }}>{domain}</span>
           </Typography>
 
-          <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 2 }}>
-            <Tabs value={activeTab} onChange={handleTabChange} aria-label="domain lookup tabs">
+          <Paper sx={{ borderRadius: 2, mb: 3 }}>
+            <Tabs 
+              value={activeTab} 
+              onChange={handleTabChange} 
+              aria-label="domain lookup tabs"
+              variant="fullWidth"
+              sx={{
+                '& .MuiTab-root': {
+                  py: 2,
+                  fontWeight: 500
+                },
+                '& .Mui-selected': {
+                  fontWeight: 600
+                }
+              }}
+            >
               <Tab 
-                label="WHOIS" 
+                label="WHOIS Info" 
                 icon={<InfoIcon />} 
                 iconPosition="start" 
                 disabled={loadingStates.whois}
@@ -198,7 +229,7 @@ const DomainPage = () => {
                 disabled={loadingStates.headers}
               />
             </Tabs>
-          </Box>
+          </Paper>
 
           {activeTab === 0 && (
             loadingStates.whois ? (
