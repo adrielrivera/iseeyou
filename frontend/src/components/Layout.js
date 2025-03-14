@@ -34,7 +34,7 @@ const drawerWidth = 260;
 
 const menuItems = [
   { text: 'Home', icon: <HomeIcon />, path: '/' },
-  { text: 'Domain Intel', icon: <DomainIcon />, path: '/domain', badge: 'New' },
+  { text: 'Domain Intel', icon: <DomainIcon />, path: '/domain' },
   { text: 'Email Intel', icon: <EmailIcon />, path: '/email' },
   { text: 'Username Intel', icon: <PersonIcon />, path: '/username' },
   { text: 'IP Intel', icon: <PublicIcon />, path: '/ip' },
@@ -127,7 +127,7 @@ function Layout({ children }) {
             <IconButton 
               color="primary" 
               component="a" 
-              href="https://github.com/yourusername/iseeyou" 
+              href="https://github.com/adrielrivera/iseeyou" 
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -221,7 +221,7 @@ function Layout({ children }) {
           }}
         >
           <Typography variant="body2" color="text.secondary">
-            © {new Date().getFullYear()} I See You OSINT Toolkit. For educational purposes only.
+            © 2025 Adriel Rivera. For educational purposes only.
           </Typography>
         </Box>
       </Box>
