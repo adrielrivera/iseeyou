@@ -165,7 +165,7 @@ function Layout({ children }) {
             {menuItems.find((item) => item.path === location.pathname)?.text || 'I See You - OSINT Toolkit'}
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ display: { xs: 'none', md: 'block' } }}>
-            Cyber sleuthing made simple
+            Made by Adriel Rivera
           </Typography>
         </Toolbar>
       </AppBar>
