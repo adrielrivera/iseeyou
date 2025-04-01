@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/iseeyou/static/css/main.3b9c6fb3.css",
+    "main.js": "/iseeyou/static/js/main.94b16ed7.js",
+    "static/js/453.30ebb3da.chunk.js": "/iseeyou/static/js/453.30ebb3da.chunk.js",
+    "index.html": "/iseeyou/index.html",
+    "main.3b9c6fb3.css.map": "/iseeyou/static/css/main.3b9c6fb3.css.map",
+    "main.94b16ed7.js.map": "/iseeyou/static/js/main.94b16ed7.js.map",
+    "453.30ebb3da.chunk.js.map": "/iseeyou/static/js/453.30ebb3da.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3b9c6fb3.css",
+    "static/js/main.94b16ed7.js"
+  ]
+}
